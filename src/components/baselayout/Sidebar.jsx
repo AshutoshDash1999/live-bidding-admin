@@ -4,15 +4,11 @@ import { Link } from 'react-router-dom';
 const SidebarMenu = [
   {
     name: 'User Data',
-    href: '/userData',
+    href: '/usersData',
   },
   {
     name: 'Item Data',
-    href: '/itemData',
-  },
-  {
-    name: 'Realtime Item Price',
-    href: '/realTimeItemPrice',
+    href: '/itemsData',
   },
 ];
 
