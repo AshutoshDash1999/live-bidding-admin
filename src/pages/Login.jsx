@@ -8,9 +8,46 @@ import {
   Input,
   Stack,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const toast = useToast();
+  const navigate = useNavigate();
+  const [loginInfo, setLoginInfo] = useState({
+    loginid: '',
+    password: '',
+  });
+
+  const handleLoginInput = (event) => {
+    setLoginInfo({
+      ...loginInfo,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  localStorage.setItem('loginid', loginInfo.loginid);
+  localStorage.setItem('password', loginInfo.password);
+  window.localStorage.setItem('isAuthenticated', 'false');
+
+  // console.log(loginInfo);
+  const handleLogin = () => {
+    if (localStorage.getItem('loginid') === 'admin' && localStorage.getItem('password') === 'admin') {
+      window.localStorage.setItem('isAuthenticated', 'true');
+      toast({
+        title: 'Login Successfull.',
+        status: 'success',
+        duration: 2000,
+        isClosable: false,
+      });
+      navigate('/usersData');
+    }
+    // console.log(localStorage.getItem('isAuthenticated'));
+  };
+  // console.log(localStorage.getItem('isAuthenticated'));
+
   return (
     <Flex
       minH="100vh"
@@ -30,12 +67,12 @@ export default function Login() {
         >
           <Stack spacing={4}>
             <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <FormLabel>Login ID</FormLabel>
+              <Input type="text" name="loginid" onChange={handleLoginInput} />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input type="password" />
+              <Input type="password" name="password" onChange={handleLoginInput} />
             </FormControl>
             <Stack spacing={10}>
               <Button
@@ -44,6 +81,7 @@ export default function Login() {
                 _hover={{
                   bg: 'purple.500',
                 }}
+                onClick={handleLogin}
               >
                 Sign in
               </Button>

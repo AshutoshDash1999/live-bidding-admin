@@ -21,6 +21,7 @@ export default function UsersData() {
     });
     return () => getData();
   }, []);
+
   return (
     <Box p="2">
       <BaseLayout>
