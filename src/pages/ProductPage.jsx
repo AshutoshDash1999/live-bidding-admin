@@ -21,9 +21,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
-import {
-  child, get, ref,
-} from 'firebase/database';
+import { child, get, ref } from 'firebase/database';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import BaseLayout from '../components/baselayout/BaseLayout';
@@ -41,15 +39,13 @@ function ProductPage() {
   const [highestBidderEmail, setHighestBidderEmail] = useState('');
 
   useEffect(() => {
-    get(
-      child(ref(rtdb), `product/product_id_${productData.itemId}`),
-    )
+    get(child(ref(rtdb), `product/product_id_${productData.itemId}`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           setHighestBidderName(snapshot.val().accountHolderName);
           setHighestBiddedPrice(snapshot.val().highestBiddedPrice);
           setHighestBidderEmail(snapshot.val().accountHolderEmail);
-        //   console.log(snapshot.val());
+          //   console.log(snapshot.val());
         } else {
           console.log('No data available');
         }
@@ -95,54 +91,54 @@ function ProductPage() {
       setIsLoading(false);
     };
 
-    fetchProductData().catch((err) => toast({
-      title: "Couldn't fetch the data.",
-      description: `${err}`,
-      status: 'error',
-      duration: 2000,
-      isClosable: false,
-    }));
+    fetchProductData().catch((err) =>
+      toast({
+        title: "Couldn't fetch the data.",
+        description: `${err}`,
+        status: 'error',
+        duration: 2000,
+        isClosable: false,
+      })
+    );
   }, [productID]);
 
   return (
-    <Box p="2">
+    <Box p='2'>
       <BaseLayout>
         {isLoading ? (
-          <Center h="50vh">
-            <Spinner color="teal" size="xl" />
+          <Center h='50vh'>
+            <Spinner color='teal' size='xl' />
           </Center>
         ) : (
           <Flex
-            alignItems="center"
-            justifyContent="center"
+            alignItems='center'
+            justifyContent='center'
             gap={{ base: '8', md: '10' }}
             direction={{ base: 'column', md: 'row' }}
           >
             <Spacer />
-            <Box boxSize="lg" rounded="lg" p="4">
+            <Box boxSize='lg' rounded='lg' p='4'>
               <Image
-                rounded="lg"
+                rounded='lg'
                 boxSize={{ base: 'xs', md: 'md' }}
                 src={productData.itemPhotoURL}
-                objectFit="cover"
-                height="100%"
-                fallbackSrc="https://via.placeholder.com/450?text=Loading+Image..."
+                objectFit='cover'
+                height='100%'
+                fallbackSrc='https://via.placeholder.com/450?text=Loading+Image...'
               />
             </Box>
             <Spacer />
 
-            <Box p="4">
-              <Text color="gray.600">
-                Product ID:
-                {' '}
-                {productData.itemId.toUpperCase()}
+            <Box p='4'>
+              <Text color='gray.600'>
+                Product ID: {productData.itemId.toUpperCase()}
               </Text>
 
-              <Heading mb={2} as="h2" size="2xl">
+              <Heading mb={2} as='h2' size='2xl'>
                 {productData.itemName}
               </Heading>
               {dayjs(productData.auctionTimeLeft).fromNow().includes('ago') ? (
-                <Alert status="error" borderRadius="md" variant="left-accent">
+                <Alert status='error' borderRadius='md' variant='left-accent'>
                   <AlertIcon />
                   <AlertTitle>Timer expired!</AlertTitle>
                   <AlertDescription>
@@ -150,19 +146,15 @@ function ProductPage() {
                   </AlertDescription>
                 </Alert>
               ) : (
-                <HStack spacing="24px">
-                  <Box
-                    background="gray.200"
-                    p={4}
-                    borderRadius="md"
-                  >
-                    <Text fontSize="lg">Auction ending in</Text>
-                    <Text fontSize="2xl" fontWeight="bold">
+                <HStack spacing='24px'>
+                  <Box background='gray.200' p={4} borderRadius='md'>
+                    <Text fontSize='lg'>Auction ending in</Text>
+                    <Text fontSize='2xl' fontWeight='bold'>
                       {dayjs(productData.auctionTimeLeft).fromNow()}
                     </Text>
                   </Box>
                   <Box>
-                    <Text fontSize="lg">
+                    <Text fontSize='lg'>
                       Auction Price: ₹
                       <span>{productData.itemPrice.toLocaleString()}</span>
                     </Text>
@@ -171,47 +163,36 @@ function ProductPage() {
               )}
 
               <Alert
-                my="2"
-                status="success"
-                borderRadius="md"
-                variant="left-accent"
+                my='2'
+                status='success'
+                borderRadius='md'
+                variant='left-accent'
               >
                 <AlertDescription>
-                  <Flex wrap="wrap">
-                    <Text fontSize="lg">Last highest bidded price is &nbsp;</Text>
-                    <Text
-                      fontWeight="bold"
-                      color="green.800"
-                    >
-                      ₹
-                      {' '}
-                      {highestBiddedPrice}
+                  <Flex wrap='wrap'>
+                    <Text fontSize='lg'>
+                      Last highest bidded price is &nbsp;
+                    </Text>
+                    <Text fontWeight='bold' color='green.800'>
+                      ₹ {highestBiddedPrice}
                     </Text>
                     <span>&nbsp;by&nbsp;</span>
-                    <Text
-                      fontWeight="bold"
-                      color="green.800"
-                    >
+                    <Text fontWeight='bold' color='green.800'>
                       {highestBidderName}
                     </Text>
                     &nbsp;
-                    <Text
-                      fontWeight="bold"
-                      color="green.800"
-                    >
-                      (
-                      {highestBidderEmail}
-                      )
+                    <Text fontWeight='bold' color='green.800'>
+                      ({highestBidderEmail})
                     </Text>
                   </Flex>
                 </AlertDescription>
               </Alert>
 
               <Box>
-                <Heading fontSize="md">Product Features</Heading>
+                <Heading fontSize='md'>Product Features</Heading>
                 <List spacing={3}>
                   <ListItem>
-                    <ListIcon as={CheckboxIcon} color="green.500" />
+                    <ListIcon as={CheckboxIcon} color='green.500' />
                     {productData.itemDesc}
                   </ListItem>
 

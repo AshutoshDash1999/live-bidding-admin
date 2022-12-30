@@ -1,5 +1,15 @@
 import {
-  Box, Flex, Spinner, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr,
+  Box,
+  Flex,
+  Spinner,
+  Table,
+  TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { collection, onSnapshot, query } from 'firebase/firestore';
@@ -23,16 +33,16 @@ export default function UsersData() {
   }, []);
 
   return (
-    <Box p="2">
+    <Box p='2'>
       <BaseLayout>
         {loading ? (
-          <Flex alignItems="center" justifyContent="center" h="100%">
-            <Spinner color="purple.500" size="xl" />
+          <Flex alignItems='center' justifyContent='center' h='100%'>
+            <Spinner color='purple.500' size='xl' />
           </Flex>
         ) : (
           <TableContainer>
-            <Table variant="simple">
-              <TableCaption placement="top">All User&apos;s Data</TableCaption>
+            <Table variant='simple'>
+              <TableCaption placement='top'>All User&apos;s Data</TableCaption>
               <Thead>
                 <Tr>
                   <Th>First Name</Th>
@@ -43,17 +53,15 @@ export default function UsersData() {
                 </Tr>
               </Thead>
               <Tbody>
-                {
-                    userDataArray.map((dataItem) => (
-                      <Tr key={dataItem.email}>
-                        <Td>{dataItem.firstName}</Td>
-                        <Td>{dataItem.lastName}</Td>
-                        <Td>{dataItem.mailID}</Td>
-                        <Td>{dataItem.mobileNumber}</Td>
-                        <Td>{dataItem.role}</Td>
-                      </Tr>
-                    ))
-                  }
+                {userDataArray.map((dataItem, i) => (
+                  <Tr key={i}>
+                    <Td>{dataItem.firstName}</Td>
+                    <Td>{dataItem.lastName}</Td>
+                    <Td>{dataItem.mailID}</Td>
+                    <Td>{dataItem.mobileNumber}</Td>
+                    <Td>{dataItem.role}</Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </TableContainer>
