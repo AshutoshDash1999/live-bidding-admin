@@ -53,6 +53,7 @@ function ItemsData() {
                   <Th>Item Name</Th>
                   <Th>Item Price</Th>
                   <Th>Item Image</Th>
+                  <Th>Item Publisher</Th>
                   <Th>Remaining Time</Th>
                   <Th>Item ID</Th>
                 </Tr>
@@ -75,6 +76,7 @@ function ItemsData() {
                         src={dataItem.itemPhotoURL}
                       />
                     </Td>
+                    <Td>{dataItem.itemPublisher}</Td>
                     <Td>{dataItem.auctionTimeLeft}</Td>
                     <Td>
                       <Link as={RouterLink} to={`/product/${dataItem.itemId}`} isExternal>
