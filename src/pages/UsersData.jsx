@@ -1,6 +1,7 @@
 import {
   Badge,
   Box,
+  Button,
   Flex,
   Spinner,
   Table,
@@ -11,16 +12,24 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { collection, onSnapshot, query } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+} from 'firebase/firestore';
+import { DeleteIcon } from '@chakra-ui/icons';
 import BaseLayout from '../components/baselayout/BaseLayout';
 import { db } from '../utils/firebaseConfig';
 
 export default function UsersData() {
   const [loading, setLoading] = useState(true);
   const [userDataArray, setUserDataArray] = useState();
-  // const toast = useToast();
+  const toast = useToast();
 
   useEffect(() => {
     const querySnap = query(collection(db, 'userData'));
@@ -36,17 +45,38 @@ export default function UsersData() {
     return () => getData();
   }, []);
 
+  const deleteItemHandler = (id) => {
+    deleteDoc(doc(db, 'userData', id))
+      .then(() =>
+        toast({
+          title: 'Delete Item Successfull.',
+          status: 'success',
+          duration: 2000,
+          isClosable: false,
+        })
+      )
+      .catch((error) =>
+        toast({
+          title: 'Delete Item Unsuccessfull.',
+          description: error,
+          status: 'success',
+          duration: 2000,
+          isClosable: false,
+        })
+      );
+  };
+
   return (
-    <Box p="2">
+    <Box p='2'>
       <BaseLayout>
         {loading ? (
-          <Flex alignItems="center" justifyContent="center" h="100%">
-            <Spinner color="purple.500" size="xl" />
+          <Flex alignItems='center' justifyContent='center' h='100%'>
+            <Spinner color='purple.500' size='xl' />
           </Flex>
         ) : (
           <TableContainer>
-            <Table variant="simple">
-              <TableCaption placement="top">All User&apos;s Data</TableCaption>
+            <Table variant='simple'>
+              <TableCaption placement='top'>All User&apos;s Data</TableCaption>
               <Thead>
                 <Tr>
                   <Th>Name</Th>
@@ -55,7 +85,7 @@ export default function UsersData() {
                   <Th>Role</Th>
                   <Th>Bank Account No.</Th>
                   <Th>Address</Th>
-                  {/* <Th>Action</Th> */}
+                  <Th>Action</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -75,11 +105,14 @@ export default function UsersData() {
                     </Td>
                     <Td>{dataItem.bankAccountNo}</Td>
                     <Td>{dataItem.address}</Td>
-                    {/* <Td>
-                      <Button colorScheme="red" onClick={() => deleteUserHandler(dataItem.mailID)}>
+                    <Td>
+                      <Button
+                        colorScheme='red'
+                        onClick={() => deleteItemHandler(dataItem.userId)}
+                      >
                         <DeleteIcon />
                       </Button>
-                    </Td> */}
+                    </Td>
                   </Tr>
                 ))}
               </Tbody>
