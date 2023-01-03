@@ -20,15 +20,18 @@ import { db } from '../utils/firebaseConfig';
 export default function UsersData() {
   const [loading, setLoading] = useState(true);
   const [userDataArray, setUserDataArray] = useState();
+  // const toast = useToast();
+
   useEffect(() => {
     const querySnap = query(collection(db, 'userData'));
     const getData = onSnapshot(querySnap, (querySnapshot) => {
       const itemDataArray = [];
-      querySnapshot.forEach((doc) => {
-        itemDataArray.push(doc.data());
+      querySnapshot.forEach((document) => {
+        itemDataArray.push(document.data());
       });
       setUserDataArray(itemDataArray);
       setLoading(false);
+      // console.log(userDataArray);
     });
     return () => getData();
   }, []);
@@ -52,19 +55,31 @@ export default function UsersData() {
                   <Th>Role</Th>
                   <Th>Bank Account No.</Th>
                   <Th>Address</Th>
+                  {/* <Th>Action</Th> */}
                 </Tr>
               </Thead>
               <Tbody>
                 {userDataArray.map((dataItem) => (
-                  <Tr key={dataItem.email}>
+                  <Tr key={dataItem.mailID}>
                     <Td>{dataItem.firstName}</Td>
                     <Td>{dataItem.mailID}</Td>
                     <Td>{dataItem.mobileNumber}</Td>
                     <Td>
-                      <Badge colorScheme={dataItem.role === 'seller' ? 'green' : 'purple'}>{dataItem.role}</Badge>
+                      <Badge
+                        colorScheme={
+                          dataItem.role === 'seller' ? 'green' : 'purple'
+                        }
+                      >
+                        {dataItem.role}
+                      </Badge>
                     </Td>
                     <Td>{dataItem.bankAccountNo}</Td>
                     <Td>{dataItem.address}</Td>
+                    {/* <Td>
+                      <Button colorScheme="red" onClick={() => deleteUserHandler(dataItem.mailID)}>
+                        <DeleteIcon />
+                      </Button>
+                    </Td> */}
                   </Tr>
                 ))}
               </Tbody>
