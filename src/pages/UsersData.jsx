@@ -1,5 +1,16 @@
 import {
-  Box, Flex, Spinner, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr,
+  Badge,
+  Box,
+  Flex,
+  Spinner,
+  Table,
+  TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { collection, onSnapshot, query } from 'firebase/firestore';
@@ -44,18 +55,18 @@ export default function UsersData() {
                 </Tr>
               </Thead>
               <Tbody>
-                {
-                    userDataArray.map((dataItem) => (
-                      <Tr key={dataItem.email}>
-                        <Td>{dataItem.firstName}</Td>
-                        <Td>{dataItem.mailID}</Td>
-                        <Td>{dataItem.mobileNumber}</Td>
-                        <Td>{dataItem.role}</Td>
-                        <Td>{dataItem.bankAccountNo}</Td>
-                        <Td>{dataItem.address}</Td>
-                      </Tr>
-                    ))
-                  }
+                {userDataArray.map((dataItem) => (
+                  <Tr key={dataItem.email}>
+                    <Td>{dataItem.firstName}</Td>
+                    <Td>{dataItem.mailID}</Td>
+                    <Td>{dataItem.mobileNumber}</Td>
+                    <Td>
+                      <Badge colorScheme={dataItem.role === 'seller' ? 'green' : 'purple'}>{dataItem.role}</Badge>
+                    </Td>
+                    <Td>{dataItem.bankAccountNo}</Td>
+                    <Td>{dataItem.address}</Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </TableContainer>

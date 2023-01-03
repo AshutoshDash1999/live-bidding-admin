@@ -1,4 +1,4 @@
-import { Button, Stack } from '@chakra-ui/react';
+import { Button, Stack, useColorModeValue } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 const SidebarMenu = [
@@ -17,7 +17,7 @@ function Sidebar() {
     <Stack
       direction="column"
       gap="4"
-      bg="purple.50"
+      bg={useColorModeValue('purple.50', 'whiteAlpha.100')}
       p="2"
       rounded="md"
       w={{ base: 'full', md: 60 }}

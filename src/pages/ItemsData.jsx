@@ -18,9 +18,11 @@ import { useEffect, useState } from 'react';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { Link as RouterLink } from 'react-router-dom';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
+import dayjs from 'dayjs';
 import BaseLayout from '../components/baselayout/BaseLayout';
 import { db } from '../utils/firebaseConfig';
 
+dayjs('2023-01-23T22:15').format('DD/MM/YYYY hh:mm A');
 function ItemsData() {
   const [loading, setLoading] = useState(true);
   const [itemDataArray, setItemDataArray] = useState();
@@ -54,7 +56,7 @@ function ItemsData() {
                   <Th>Item Price</Th>
                   <Th>Item Image</Th>
                   <Th>Item Publisher</Th>
-                  <Th>Remaining Time</Th>
+                  <Th>Ending Time</Th>
                   <Th>Item ID</Th>
                 </Tr>
               </Thead>
@@ -77,9 +79,17 @@ function ItemsData() {
                       />
                     </Td>
                     <Td>{dataItem.itemPublisher}</Td>
-                    <Td>{dataItem.auctionTimeLeft}</Td>
                     <Td>
-                      <Link as={RouterLink} to={`/product/${dataItem.itemId}`} isExternal>
+                      {dayjs(dataItem.auctionTimeLeft).format(
+                        'DD/MM/YYYY hh:mm A',
+                      )}
+                    </Td>
+                    <Td>
+                      <Link
+                        as={RouterLink}
+                        to={`/product/${dataItem.itemId}`}
+                        isExternal
+                      >
                         <Text>
                           {dataItem.itemId}
                           {' '}
